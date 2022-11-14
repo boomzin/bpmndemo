@@ -11,7 +11,7 @@ public class CityForecast {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id", nullable = false)
     private Long id;
-    private String name;
+    private String city;
     private String country;
     private String latitude;
     private String longitude;
@@ -21,9 +21,9 @@ public class CityForecast {
     public CityForecast() {
     }
 
-    public CityForecast(Long id, String name, String country, String latitude, String longitude, long timestampUTC, float temperature) {
+    public CityForecast(Long id, String city, String country, String latitude, String longitude, long timestampUTC, float temperature) {
         this.id = id;
-        this.name = name;
+        this.city = city;
         this.country = country;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -37,6 +37,14 @@ public class CityForecast {
 
     public float getTemperature() {
         return temperature;
+    }
+
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public String getLongitude() {
+        return longitude;
     }
 
     @Override

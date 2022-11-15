@@ -7,6 +7,7 @@ import static com.example.demo.config.ProcessVariableConstants.*;
 
 @Service
 public class CamundaStartService {
+    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(CamundaStartService.class);
     private final RuntimeService runtimeService;
 
     public CamundaStartService(RuntimeService runtimeService) {
@@ -14,6 +15,7 @@ public class CamundaStartService {
     }
 
     public void startProcessByMessage(String city, String country, String uniqueID) {
+        log.info("Starting process");
         runtimeService.createMessageCorrelation("StartProcessMessage").setVariable(CITY, city).setVariable(COUNTRY, country).setVariable(UNIQUEID, uniqueID).correlate();
     }
 }

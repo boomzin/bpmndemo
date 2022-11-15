@@ -11,13 +11,16 @@ public class WeatherApiResponse {
     private Coord coord;
     @JsonProperty("main")
     private Main main;
+    @JsonProperty("dt")
+    private long timestamp;
 
     public WeatherApiResponse() {
     }
 
-    public WeatherApiResponse(Coord coord, Main main) {
+    public WeatherApiResponse(Coord coord, Main main, long timestamp) {
         this.coord = coord;
         this.main = main;
+        this.timestamp = timestamp;
     }
 
     public Coord getCoord() {
@@ -28,12 +31,16 @@ public class WeatherApiResponse {
         return main;
     }
 
+    public long getTimestamp() {
+        return timestamp;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        WeatherApiResponse response = (WeatherApiResponse) o;
-        return coord.equals(response.coord) && main.equals(response.main);
+        WeatherApiResponse that = (WeatherApiResponse) o;
+        return timestamp == that.timestamp && coord.equals(that.coord) && main.equals(that.main);
     }
 
     @Override

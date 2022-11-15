@@ -8,7 +8,6 @@ import org.camunda.connect.httpclient.HttpConnector;
 import org.camunda.connect.httpclient.HttpRequest;
 import org.camunda.connect.httpclient.HttpResponse;
 import org.springframework.beans.factory.annotation.Value;
-import org.camunda.spin.json.SpinJsonNode;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -29,7 +28,7 @@ public class FetchCurrentWeather implements JavaDelegate {
 
     @Override
     public void execute(DelegateExecution execution) throws Exception {
-        WeatherApiResponse apiResponse = null;
+        WeatherApiResponse apiResponse;
         String city = (String) execution.getVariable(CITY);
         String country = (String) execution.getVariable(COUNTRY);
         log.info("Task: Fetch current weather");
@@ -45,9 +44,10 @@ public class FetchCurrentWeather implements JavaDelegate {
         if (response.getStatusCode() == 200 || !response.getResponse().isEmpty()) {
             log.info("WeatherClient: fetched successfully");
             apiResponse = JSON(response.getResponse()).mapTo(WeatherApiResponse.class);
-            execution.setVariable("latitude", apiResponse.getCoord().getLat());
-            execution.setVariable("longitude", apiResponse.getCoord().getLon());
-            execution.setVariable("currentTemperature", apiResponse.getMain().getTemp());
+            execution.setVariable(LATITUDE, apiResponse.getCoord().getLat());
+            execution.setVariable(LONGITUDE, apiResponse.getCoord().getLon());
+            execution.setVariable(CURRENT_TEMPERATURE, apiResponse.getMain().getTemp());
+            execution.setVariable(TIMESTAMP, apiResponse.getTimestamp());
         }
         response.close();
     }

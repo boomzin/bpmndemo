@@ -47,6 +47,30 @@ public class CityForecast {
         return longitude;
     }
 
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
+    }
+
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
+    }
+
+    public void setTimestampUTC(long timestampUTC) {
+        this.timestampUTC = timestampUTC;
+    }
+
+    public void setTemperature(float temperature) {
+        this.temperature = temperature;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

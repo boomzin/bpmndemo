@@ -8,4 +8,5 @@ public interface ProcessVariableConstants {
     String LATITUDE ="latitude";
     String CURRENT_TEMPERATURE ="currentTemperature";
     String CURRENT_IS_PRESENT ="currentIsPresent";
+    String TIMESTAMP ="timestamp";
 }

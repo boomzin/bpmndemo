@@ -7,6 +7,9 @@ public interface ProcessVariableConstants {
     String LONGITUDE ="longitude";
     String LATITUDE ="latitude";
     String CURRENT_TEMPERATURE ="currentTemperature";
-    String CURRENT_IS_PRESENT ="currentIsPresent";
+    String IS_PRESENT_CURRENT ="isPresentCurrent";
+    String IS_ENOUGH_FORECASTS_QUANTITY ="isEnoughForecasts";
+    String FORECAST_LATEST_IN_DB ="forecastLatestInDb";
     String TIMESTAMP ="timestamp";
+    String FORECASTS = "forecasts";
 }

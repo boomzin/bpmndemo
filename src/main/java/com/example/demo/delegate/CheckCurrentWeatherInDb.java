@@ -22,7 +22,7 @@ public class CheckCurrentWeatherInDb implements JavaDelegate {
     @Override
     public void execute(DelegateExecution execution) throws Exception {
         log.info("Task: Check current weather in db");
-        execution.setVariable(CURRENT_IS_PRESENT, false);
+        execution.setVariable(IS_PRESENT_CURRENT, false);
         String city = (String) execution.getVariable(CITY);
         String country = (String) execution.getVariable(COUNTRY);
         Optional<CityForecast> currentWeatherInDb = cityForecastService.getCurrent(city, country);
@@ -32,7 +32,7 @@ public class CheckCurrentWeatherInDb implements JavaDelegate {
             execution.setVariable(LATITUDE, current.getLatitude());
             execution.setVariable(LONGITUDE, current.getLongitude());
             execution.setVariable(CURRENT_TEMPERATURE, current.getTemperature());
-            execution.setVariable(CURRENT_IS_PRESENT, true);
+            execution.setVariable(IS_PRESENT_CURRENT, true);
         } else {
             log.info("Current weather was not found");
         }

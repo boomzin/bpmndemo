@@ -1,7 +1,7 @@
 package com.example.demo.delegate;
 
 import com.example.demo.model.CityForecast;
-import com.example.demo.repository.CityForecastRepository;
+import com.example.demo.service.CityForecastService;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.springframework.stereotype.Component;
@@ -9,12 +9,12 @@ import org.springframework.stereotype.Component;
 import static com.example.demo.config.ProcessVariableConstants.*;
 
 @Component
-public class WriteCurrentWeatherInDb implements JavaDelegate {
-    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(WriteCurrentWeatherInDb.class);
-    private final CityForecastRepository cityForecastRepository;
+public class WriteCurrentWeatherToDb implements JavaDelegate {
+    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(WriteCurrentWeatherToDb.class);
+    private final CityForecastService cityForecastService;
 
-    public WriteCurrentWeatherInDb(CityForecastRepository cityForecastRepository) {
-        this.cityForecastRepository = cityForecastRepository;
+    public WriteCurrentWeatherToDb(CityForecastService cityForecastService) {
+        this.cityForecastService = cityForecastService;
     }
 
     @Override
@@ -27,6 +27,6 @@ public class WriteCurrentWeatherInDb implements JavaDelegate {
         cityForecast.setLatitude((String) execution.getVariable(LATITUDE));
         cityForecast.setTimestampUTC((long) execution.getVariable(TIMESTAMP));
         cityForecast.setTemperature((float) execution.getVariable(CURRENT_TEMPERATURE));
-        cityForecastRepository.saveAndFlush(cityForecast);
+        cityForecastService.save(cityForecast);
     }
 }

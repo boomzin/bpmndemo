@@ -35,4 +35,8 @@ public class CityForecastService {
         long endAtThirdDay = LocalDate.now().atTime(LocalTime.MAX).plusDays(3).toInstant(ZoneOffset.UTC).getEpochSecond();
         return cityForecastRepository.getForecastsByPeriod(longitude, latitude, startAtTomorrow, endAtThirdDay);
     }
+
+    public CityForecast save(CityForecast cityForecast) {
+        return cityForecastRepository.saveAndFlush(cityForecast);
+    }
 }

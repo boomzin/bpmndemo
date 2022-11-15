@@ -1,6 +1,7 @@
 package com.example.demo.delegate;
 
 import com.example.demo.dto.ForecastApiResponse;
+import com.example.demo.model.CityForecast;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.camunda.bpm.engine.variable.Variables;
@@ -12,7 +13,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static com.example.demo.config.ProcessVariableConstants.*;
 import static org.camunda.spin.Spin.JSON;
@@ -30,6 +33,8 @@ public class FetchForecasts implements JavaDelegate {
     @Override
     public void execute(DelegateExecution execution) throws Exception {
         ForecastApiResponse apiResponse;
+        String city = (String) execution.getVariable(CITY);
+        String country = (String) execution.getVariable(COUNTRY);
         String latitude = (String) execution.getVariable(LATITUDE);
         String longitude = (String) execution.getVariable(LONGITUDE);
         log.info("Task: Fetch forecasts");
@@ -45,7 +50,10 @@ public class FetchForecasts implements JavaDelegate {
         if (response.getStatusCode() == 200 || !response.getResponse().isEmpty()) {
             log.info("Fetched successfully");
             apiResponse = JSON(response.getResponse()).mapTo(ForecastApiResponse.class);
-            execution.setVariable(FORECASTS, Variables.objectValue(apiResponse.getForecasts()).create());
+            List<CityForecast> forecasts = apiResponse.getForecasts().stream()
+                    .map(x-> new CityForecast(null,city, country, latitude, longitude, x.getTimestamp(), x.getMain().getTemp() ))
+                    .collect(Collectors.toList());
+            execution.setVariable(FORECASTS, Variables.objectValue(forecasts).create());
         }
         response.close();
     }

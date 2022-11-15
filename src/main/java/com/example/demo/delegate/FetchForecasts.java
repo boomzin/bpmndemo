@@ -1,8 +1,9 @@
 package com.example.demo.delegate;
 
-import com.example.demo.dto.WeatherApiResponse;
+import com.example.demo.dto.ForecastApiResponse;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
+import org.camunda.bpm.engine.variable.Variables;
 import org.camunda.connect.Connectors;
 import org.camunda.connect.httpclient.HttpConnector;
 import org.camunda.connect.httpclient.HttpRequest;
@@ -17,8 +18,8 @@ import static com.example.demo.config.ProcessVariableConstants.*;
 import static org.camunda.spin.Spin.JSON;
 
 @Component
-public class FetchCurrentWeather implements JavaDelegate {
-    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(FetchCurrentWeather.class);
+public class FetchForecasts implements JavaDelegate {
+    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(FetchForecasts.class);
 
     @Value("${weather.url}")
     private String url;
@@ -28,13 +29,13 @@ public class FetchCurrentWeather implements JavaDelegate {
 
     @Override
     public void execute(DelegateExecution execution) throws Exception {
-        WeatherApiResponse apiResponse;
-        String city = (String) execution.getVariable(CITY);
-        String country = (String) execution.getVariable(COUNTRY);
-        log.info("Task: Fetch current weather");
-        log.info("Fetch current weather for " + city + ", " + country);
+        ForecastApiResponse apiResponse;
+        String latitude = (String) execution.getVariable(LATITUDE);
+        String longitude = (String) execution.getVariable(LONGITUDE);
+        log.info("Task: Fetch forecasts");
+        log.info("Fetch forecasts by 5 days, step 3 hours");
         HttpConnector httpConnector = Connectors.getConnector(HttpConnector.ID);
-        HttpRequest request = httpConnector.createRequest().url(String.format("%s/data/2.5/weather?q=%s,%s&appid=%s", url, city, country, apiKey)).get();
+        HttpRequest request = httpConnector.createRequest().url(String.format("%s/data/2.5/forecast?lat=%s&lon=%s&appid=%s", url, latitude, longitude, apiKey)).get();
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-type", "application/json");
 
@@ -43,11 +44,8 @@ public class FetchCurrentWeather implements JavaDelegate {
         HttpResponse response = request.execute();
         if (response.getStatusCode() == 200 || !response.getResponse().isEmpty()) {
             log.info("Fetched successfully");
-            apiResponse = JSON(response.getResponse()).mapTo(WeatherApiResponse.class);
-            execution.setVariable(LATITUDE, apiResponse.getCoord().getLat());
-            execution.setVariable(LONGITUDE, apiResponse.getCoord().getLon());
-            execution.setVariable(CURRENT_TEMPERATURE, apiResponse.getMain().getTemp());
-            execution.setVariable(TIMESTAMP, apiResponse.getTimestamp());
+            apiResponse = JSON(response.getResponse()).mapTo(ForecastApiResponse.class);
+            execution.setVariable(FORECASTS, Variables.objectValue(apiResponse.getForecasts()).create());
         }
         response.close();
     }

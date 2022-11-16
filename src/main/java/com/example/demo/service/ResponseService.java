@@ -1,17 +1,25 @@
 package com.example.demo.service;
 
+import com.example.demo.dto.ErrorResponseDto;
 import com.example.demo.dto.ResponseDto;
+import com.example.demo.dto.TempResponseDto;
+import com.example.demo.model.ErrorFetching;
 import com.example.demo.model.Response;
+import com.example.demo.repository.ErrorRepository;
 import com.example.demo.repository.ResponseRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class ResponseService {
 
     private final ResponseRepository responseRepository;
+    private final ErrorRepository errorRepository;
 
-    public ResponseService(ResponseRepository responseRepository) {
+    public ResponseService(ResponseRepository responseRepository, ErrorRepository errorRepository) {
         this.responseRepository = responseRepository;
+        this.errorRepository = errorRepository;
     }
 
     public void save (Response response) {
@@ -19,10 +27,15 @@ public class ResponseService {
     }
 
     public ResponseDto getResponse(String uniqueId) {
-        Response response = responseRepository.getResponseByUniqueId(uniqueId).get();
-        ResponseDto responseDto = new ResponseDto();
-        responseDto.setCurrentTemperature(response.getCurrentTemp());
-        responseDto.setForecastedMinTemp(response.getForecastedMinTemp());
-        return responseDto;
+        Optional<Response> response = responseRepository.getResponseByUniqueId(uniqueId);
+        if (response.isPresent()) {
+            return new TempResponseDto(response.get().getCurrentTemp(), response.get().getForecastedMinTemp());
+        } else {
+            Optional<ErrorFetching> errorFetching = errorRepository.getErrorByUniqueId(uniqueId);
+            if (errorFetching.isPresent()) {
+                return new ErrorResponseDto(errorFetching.get().getMessage());
+            }
+        }
+        return new ErrorResponseDto("Error, reason unknown");
     }
 }

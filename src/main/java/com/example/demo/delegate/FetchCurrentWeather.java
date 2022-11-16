@@ -1,6 +1,7 @@
 package com.example.demo.delegate;
 
 import com.example.demo.dto.WeatherApiResponse;
+import org.camunda.bpm.engine.delegate.BpmnError;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.camunda.connect.Connectors;
@@ -41,13 +42,17 @@ public class FetchCurrentWeather implements JavaDelegate {
         request.setRequestParameter("headers", headers);
 
         HttpResponse response = request.execute();
-        if (response.getStatusCode() == 200 || !response.getResponse().isEmpty()) {
+        if (response.getStatusCode() == 200) {
             log.info("Fetched successfully");
             apiResponse = JSON(response.getResponse()).mapTo(WeatherApiResponse.class);
             execution.setVariable(LATITUDE, apiResponse.getCoord().getLat());
             execution.setVariable(LONGITUDE, apiResponse.getCoord().getLon());
             execution.setVariable(CURRENT_TEMPERATURE, apiResponse.getMain().getTemp());
             execution.setVariable(TIMESTAMP, apiResponse.getTimestamp());
+        } else {
+            log.info("Fetching failed");
+            execution.setVariable(ERROR_FETCHING_MESSAGE, "Error fetching current weather");
+            throw new BpmnError(ERROR_FETCHING_WEATHER);
         }
         response.close();
     }

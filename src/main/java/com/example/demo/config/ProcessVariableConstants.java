@@ -13,4 +13,7 @@ public interface ProcessVariableConstants {
     String TIMESTAMP ="timestamp";
     String FORECASTS = "forecasts";
     String RESPONSE = "response";
+    String ERROR_FETCHING_WEATHER = "errorFetchingWeather";
+    String ERROR_FETCHING_FORECASTS = "errorFetchingForecasts";
+    String ERROR_FETCHING_MESSAGE = "errorFetchingMessage";
 }

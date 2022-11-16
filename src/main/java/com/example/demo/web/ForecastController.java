@@ -28,6 +28,7 @@ public class ForecastController {
         camundaStartService.startProcessByMessage(city, country, uniqueID);
         return uniqueID;
     }
+
     @GetMapping(value = "response")
     public ResponseDto getResponse(@RequestParam String uniqueId) {
         return responseService.getResponse(uniqueId);

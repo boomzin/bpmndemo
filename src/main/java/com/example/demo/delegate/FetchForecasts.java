@@ -2,6 +2,7 @@ package com.example.demo.delegate;
 
 import com.example.demo.dto.ForecastApiResponse;
 import com.example.demo.model.CityForecast;
+import org.camunda.bpm.engine.delegate.BpmnError;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.camunda.bpm.engine.variable.Variables;
@@ -47,13 +48,17 @@ public class FetchForecasts implements JavaDelegate {
         request.setRequestParameter("headers", headers);
 
         HttpResponse response = request.execute();
-        if (response.getStatusCode() == 200 || !response.getResponse().isEmpty()) {
+        if (response.getStatusCode() == 200) {
             log.info("Fetched successfully");
             apiResponse = JSON(response.getResponse()).mapTo(ForecastApiResponse.class);
             List<CityForecast> forecasts = apiResponse.getForecasts().stream()
                     .map(x-> new CityForecast(null,city, country, latitude, longitude, x.getTimestamp(), x.getMain().getTemp() ))
                     .collect(Collectors.toList());
             execution.setVariable(FORECASTS, Variables.objectValue(forecasts).create());
+        } else {
+            log.info("Fetching failed");
+            execution.setVariable(ERROR_FETCHING_MESSAGE, "Error fetching forecasts");
+            throw new BpmnError(ERROR_FETCHING_FORECASTS);
         }
         response.close();
     }

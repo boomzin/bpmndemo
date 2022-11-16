@@ -15,7 +15,7 @@ import java.util.List;
 import static com.example.demo.config.ProcessVariableConstants.*;
 
 @Component
-public class ComposeAnswer implements JavaDelegate {
+public class ComposeResponse implements JavaDelegate {
     private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(CheckForecastsInDb.class);
 
     @Override

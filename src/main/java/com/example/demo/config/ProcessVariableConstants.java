@@ -12,4 +12,5 @@ public interface ProcessVariableConstants {
     String FORECAST_LATEST_IN_DB ="forecastLatestInDb";
     String TIMESTAMP ="timestamp";
     String FORECASTS = "forecasts";
+    String RESPONSE = "response";
 }

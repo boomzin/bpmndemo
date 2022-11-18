@@ -38,3 +38,8 @@ dependencies {
 tasks.named('test') {
     useJUnitPlatform()
 }
+task dbDockerImage (type: Exec){
+    doFirst() {
+        commandLine 'bash', '-c', "bash startDatabase.sh"
+    }
+}

@@ -23,13 +23,18 @@ public class CityForecastService {
         this.cityForecastRepository = cityForecastRepository;
         PREVIOUS_HOURS = 60*60* count;
     }
-
+    /**
+     * Search current weather in db. The last entry for the previous three hours is considered "current"
+     */
     public Optional<CityForecast> getCurrent(String city, String country) {
         long end = Instant.now().getEpochSecond();
         long start = end - PREVIOUS_HOURS;
         return cityForecastRepository.getCurrentWeather(city, country, start, end);
     }
 
+    /**
+     * Search forecasts in db from tomorrow up to end of third day.
+     */
     public List<CityForecast> checkForecastsInDb(String longitude, String latitude) {
         long startAtTomorrow = LocalDate.now().atStartOfDay().plusDays(1).toInstant(ZoneOffset.UTC).getEpochSecond();
         long endAtThirdDay = LocalDate.now().atTime(LocalTime.MAX).plusDays(3).toInstant(ZoneOffset.UTC).getEpochSecond();

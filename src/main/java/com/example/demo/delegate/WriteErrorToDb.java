@@ -9,6 +9,14 @@ import org.springframework.stereotype.Component;
 import static com.example.demo.config.ProcessVariableConstants.ERROR_FETCHING_MESSAGE;
 import static com.example.demo.config.ProcessVariableConstants.UNIQUEID;
 
+/**
+ * This class is related with process task "Write errorFetching to db"
+ * Create instance of ErrorFetching.class.
+ * Fill instance fields with data of process variables:
+ * ERROR_FETCHING_MESSAGE, UNIQUEID.
+ * Store instance to database.
+ *
+ */
 @Component
 public class WriteErrorToDb implements JavaDelegate {
     private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(WriteErrorToDb.class);

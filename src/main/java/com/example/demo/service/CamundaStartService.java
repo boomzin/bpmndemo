@@ -5,6 +5,9 @@ import org.springframework.stereotype.Service;
 
 import static com.example.demo.config.ProcessVariableConstants.*;
 
+/**
+ * Start process. Set process variables: CITY, COUNTRY, UNIQUEID
+ */
 @Service
 public class CamundaStartService {
     private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(CamundaStartService.class);

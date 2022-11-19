@@ -17,6 +17,14 @@ import java.util.Map;
 import static com.example.demo.config.ProcessVariableConstants.*;
 import static org.camunda.spin.Spin.JSON;
 
+/**
+ * This class is related with process task "Fetch current weather"
+ * Trying to get data from external weather service.
+ * If successful then assign this data with process variables:
+ * LATITUDE, LONGITUDE, CURRENT_TEMPERATURE, TIMESTAMP.
+ * If not, set information to process variable ERROR_FETCHING_MESSAGE and throw new BpmnError connected with process error boundary event "errorFetchingWeather"
+ *
+ */
 @Component
 public class FetchCurrentWeather implements JavaDelegate {
     private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(FetchCurrentWeather.class);

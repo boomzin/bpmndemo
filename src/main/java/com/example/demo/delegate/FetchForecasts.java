@@ -21,6 +21,13 @@ import java.util.stream.Collectors;
 import static com.example.demo.config.ProcessVariableConstants.*;
 import static org.camunda.spin.Spin.JSON;
 
+/**
+ * This class is related with process task "Fetch forecasts"
+ * Trying to get data from external weather service.
+ * If successful then assign this data with process variables FORECASTS.
+ * If not, set information to process variable ERROR_FETCHING_MESSAGE and throw new BpmnError connected with process error boundary event "errorFetchingForecasts"
+ *
+ */
 @Component
 public class FetchForecasts implements JavaDelegate {
     private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(FetchForecasts.class);

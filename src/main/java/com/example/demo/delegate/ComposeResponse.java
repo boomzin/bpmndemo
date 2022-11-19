@@ -14,6 +14,12 @@ import java.util.List;
 
 import static com.example.demo.config.ProcessVariableConstants.*;
 
+/**
+ * This class is related with process task "Compose response"
+ * Get value from process variables: CURRENT_TEMPERATURE, CURRENT_TEMPERATURE, UNIQUEID. Find minimal temperature forecasted for three days.
+ * Create instance of Response.class with necessary data. Assign this instance to process variable RESPONSE
+ *
+ */
 @Component
 public class ComposeResponse implements JavaDelegate {
     private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(CheckForecastsInDb.class);

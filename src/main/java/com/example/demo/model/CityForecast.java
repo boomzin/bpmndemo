@@ -2,7 +2,9 @@ package com.example.demo.model;
 
 import javax.persistence.*;
 import java.util.Objects;
-
+/**
+ * Entity object, stored in database, contains information about city and forecasts for it
+ */
 @Entity
 @Table(name = "city_forecast")
 @Access(AccessType.FIELD)

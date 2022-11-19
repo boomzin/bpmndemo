@@ -8,6 +8,14 @@ import org.springframework.stereotype.Component;
 
 import static com.example.demo.config.ProcessVariableConstants.*;
 
+/**
+ * This class is related with process task "Write current weather to db"
+ * Create instance of CityForecast.class.
+ * Fill instance fields with data of process variables:
+ * CITY, COUNTRY, LONGITUDE, LATITUDE, TIMESTAMP, CURRENT_TEMPERATURE.
+ * Store instance to database.
+ *
+ */
 @Component
 public class WriteCurrentWeatherToDb implements JavaDelegate {
     private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(WriteCurrentWeatherToDb.class);

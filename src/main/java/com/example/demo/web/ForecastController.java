@@ -22,6 +22,9 @@ public class ForecastController {
         this.responseService = responseService;
     }
 
+    /**
+     * Getting request with city name and country code, return unique id of process
+     */
     @GetMapping(value = "temperature")
     public String getTemp(@RequestParam String city, @RequestParam String country) {
         String uniqueID = UUID.randomUUID().toString();
@@ -29,6 +32,9 @@ public class ForecastController {
         return uniqueID;
     }
 
+    /**
+     * Getting request with unique id, return current temperature and minimal temperature forecasted for three days or error message
+     */
     @GetMapping(value = "response")
     public ResponseDto getResponse(@RequestParam String uniqueId) {
         return responseService.getResponse(uniqueId);

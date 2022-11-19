@@ -2,7 +2,9 @@ package com.example.demo.model;
 
 
 import javax.persistence.*;
-
+/**
+ * Entity object, stored in database, contains results of process work: current temperature adn minimal temperature forecasted for three days
+ */
 @Entity
 @Table(name = "response")
 @Access(AccessType.FIELD)

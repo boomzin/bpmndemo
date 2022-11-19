@@ -13,6 +13,13 @@ import java.util.List;
 
 import static com.example.demo.config.ProcessVariableConstants.*;
 
+/**
+ * This class is related with process task "Write forecasts to db"
+ * Create list of CityForecast.class.
+ * Fill list  with data of process variables FORECASTS.
+ * Store list of instances to database.
+ *
+ */
 @Component
 public class WriteForecastsToDb implements JavaDelegate {
     private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(WriteForecastsToDb.class);

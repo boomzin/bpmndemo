@@ -2,7 +2,9 @@ package com.example.demo.model;
 
 
 import javax.persistence.*;
-
+/**
+ * Entity object, stored in database, contains information about errors during fetching weather information from external service
+ */
 @Entity
 @Table(name = "error_fetching")
 @Access(AccessType.FIELD)

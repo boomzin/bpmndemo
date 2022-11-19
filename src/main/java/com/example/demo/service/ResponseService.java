@@ -26,6 +26,9 @@ public class ResponseService {
         responseRepository.saveAndFlush(response);
     }
 
+    /**
+     * Search response in db. If response doesn`t exist then search error information in db. If such information doesn`t exist create instance of ErrorResponseDto.class with message "Error, reason unknown"
+     */
     public ResponseDto getResponse(String uniqueId) {
         Optional<Response> response = responseRepository.getResponseByUniqueId(uniqueId);
         if (response.isPresent()) {

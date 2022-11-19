@@ -14,6 +14,13 @@ import java.util.List;
 
 import static com.example.demo.config.ProcessVariableConstants.*;
 
+/**
+ * This class is related with process task "Check forecasts in db"
+ * If database doesn`t store forecasts data or this forecasts period less than three days process variable IS_ENOUGH_FORECASTS_QUANTITY set to FALSE.
+ * If it does then fill process variable FORECASTS. Process variable IS_ENOUGH_FORECASTS_QUANTITY set to TRUE.
+ * This variable has influence on decision in gateway "is enough quantity forecasts in db"
+ *
+ */
 @Component
 public class CheckForecastsInDb implements JavaDelegate {
     private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(CheckForecastsInDb.class);
